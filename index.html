@@ -1,7 +1,1511 @@
-<!DOCTYPE html>
 <html>
-<body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages!</p>
+<head>
+    <link type="text/css" href="./MVP.css" rel="stylesheet" media="all" />
+</head>
+<body onload="mainFunction()">
+	<script>
+		function mainFunction() {
+			refreshCanvas();
+			generateGUID();
+			
+			setTimeout(function () {
+				refreshCanvas();
+			}, 500);
+		}
+		
+		function refreshCanvas() {	
+			console.clear();
+			generateOctgnOutput();
+		
+			const card_canvas = document.getElementById("card_canvas");
+			const ctx = card_canvas.getContext("2d");
+			ctx.clearRect(0, 0, 429, 600);
+			// ctx.fillStyle = "red";
+			// ctx.fillRect(0, 0, 150, 75);
+			
+			var card_background_image = new Image();
+			card_background_image.onload = function() {
+				ctx.globalCompositeOperation = "source-over";
+				ctx.drawImage(card_background_image, 0, 0, card_background_image.width, card_background_image.height);
+			
+				var card_type = document.getElementById("card_type").value;
+				var card_icon = document.getElementById("card_icon").value;
+				var nameColor = "#fefdfe";
+				
+				var top_part_name = "Forward_TopPart";
+				if (card_type == "Forward" || card_type == "Backup" || card_type == "Summon" || card_type == "Monster") {
+					if (card_type == "Forward") {
+						nameColor = "#fefdfe";
+					
+						if (card_icon == "0") top_part_name = "Forward_TopPart";
+						else if (card_icon == "1") top_part_name = "Forward_Multi_TopPart";
+						else if (card_icon == "2") top_part_name = "Forward_EX_TopPart";
+						else if (card_icon == "3") top_part_name = "Forward_LB_TopPart";
+					} else if (card_type == "Backup") {
+						// console.log("attempt");
+						nameColor = "#100200";
+					
+						if (card_icon == "0") top_part_name = "Backup_TopPart";
+						else if (card_icon == "1") top_part_name = "Backup_Multi_TopPart";
+						else if (card_icon == "2") top_part_name = "Backup_EX_TopPart";
+						else if (card_icon == "3") {
+							nameColor = "#fefdfe";
+							top_part_name = "Forward_LB_TopPart";
+						}
+					} else if (card_type == "Summon") {
+						// console.log("attempt");
+						nameColor = "#100200";
+					
+						if (card_icon == "0") top_part_name = "Summon_TopPart";
+						else if (card_icon == "1") top_part_name = "Summon_Multi_TopPart";
+						else if (card_icon == "2") top_part_name = "Summon_EX_TopPart";
+						else if (card_icon == "3") {
+							nameColor = "#fefdfe";
+							top_part_name = "Forward_LB_TopPart";
+						}
+					} else if (card_type == "Monster") {
+						console.log("attempt");
+						nameColor = "#fefdfe";
+					
+						if (card_icon == "0") top_part_name = "Monster_TopPart";
+						else if (card_icon == "1") top_part_name = "Monster_Multi_TopPart";
+						else if (card_icon == "2") top_part_name = "Monster_EX_TopPart";
+						else if (card_icon == "3") {
+							nameColor = "#fefdfe";
+							top_part_name = "Forward_LB_TopPart";
+						}
+					}
+					
+					if (card_icon == "3") {
+						var top_part_image = new Image();
+						top_part_image.onload = function() {
+							ctx.globalCompositeOperation = "source-over";
+							ctx.drawImage(top_part_image, 0, 0, 429, 600);
+							
+							var card_name = document.getElementById("card_name").value;
+							ctx.font = "30px CardNameFont";
+							ctx.letterSpacing = "6.7px";
+							ctx.globalCompositeOperation = "source-over";
+							ctx.strokeStyle = "black";
+							ctx.lineWidth = 2;
+							ctx.globalAlpha = 0.8;
+							ctx.textAlign = "left";
+							ctx.strokeText(card_name, 91, 61);
+							ctx.fillStyle = nameColor;
+							ctx.globalAlpha = 1.0;
+							ctx.textAlign = "left";
+							ctx.fillText(card_name, 91, 61);
+						};
+						top_part_image.src = "TopPart/" + top_part_name + ".png";
+					} else {
+						var top_part_before_image = new Image();
+						top_part_before_image.onload = function() {
+							ctx.globalCompositeOperation = "multiply";
+							ctx.drawImage(top_part_before_image, 0, 0, 429, 600);
+							
+							var top_part_image = new Image();
+							top_part_image.onload = function() {
+								ctx.globalCompositeOperation = "source-over";
+								ctx.drawImage(top_part_image, 0, 0, 429, 600);
+								
+								var startX = 91;
+								if (card_type == "Summon" || card_type == "Monster") startX += 16;
+								
+								var card_name = document.getElementById("card_name").value;
+								ctx.font = "30px CardNameFont";
+								ctx.letterSpacing = "6.7px";
+								ctx.globalCompositeOperation = "source-over";
+								if (card_type == "Forward") {
+									ctx.strokeStyle = "black";
+									ctx.lineWidth = 2;
+									ctx.globalAlpha = 0.8;
+									ctx.textAlign = "left";
+									ctx.strokeText(card_name, startX, 53);
+								}
+								ctx.fillStyle = nameColor;
+								ctx.globalAlpha = 1.0;
+								ctx.textAlign = "left";
+								ctx.fillText(card_name, startX, 53);
+							};
+							top_part_image.src = "TopPart/" + top_part_name + ".png";
+						};
+						if (card_type == "Forward") {
+							top_part_before_image.src = "TopPart/Forward_TopPart_Before.png";
+						} else if (card_type == "Backup") {
+							top_part_before_image.src = "TopPart/Backup_TopPart_Before.png";
+						} else if (card_type == "Summon") {
+							top_part_before_image.src = "TopPart/Summon_TopPart_Before.png";
+						} else if (card_type == "Monster") {
+							top_part_before_image.src = "TopPart/Monster_TopPart_Before.png";
+						}
+					}
+				}
+				
+				var card_element = document.getElementById("card_element").value;
+				var card_cp = document.getElementById("card_cp").value;
+				
+				var cp_image = new Image();
+				cp_image.onload = function() {
+					ctx.globalCompositeOperation = "source-over";
+					ctx.drawImage(cp_image, 0, 0, 429, 600);
+				};
+				cp_image.src = "CP/" + card_element + "_CP_" + card_cp + ".png";
+				
+				var card_power = document.getElementById("card_power").value;
+				
+				if (card_type == "Forward" && card_power != "0") {
+					var power_image_1 = new Image();
+					power_image_1.onload = function() {
+						ctx.globalCompositeOperation = "multiply";
+						ctx.drawImage(power_image_1, 0, 0, 429, 600);
+						
+						var power_image_2 = new Image();
+						power_image_2.onload = function() {
+							ctx.globalCompositeOperation = "source-over";
+							ctx.drawImage(power_image_2, 0, 0, 429, 600);
+						};
+						power_image_2.src = "Power/Power_" + card_power + "_2.png";
+					};
+					power_image_1.src = "Power/Power_" + card_power + "_1.png";
+				}
+				
+				if (card_type == "Forward" || card_type == "Backup" || card_type == "Summon" || card_type == "Monster") {
+					var forward_image_1 = new Image();
+					forward_image_1.onload = function() {
+						ctx.globalCompositeOperation = "multiply";
+						ctx.drawImage(forward_image_1, 0, 0, 429, 600);
+						
+						var forward_image_2 = new Image();
+						forward_image_2.onload = function() {
+							ctx.globalCompositeOperation = "source-over";
+							ctx.drawImage(forward_image_2, 0, 0, 429, 600);
+							
+							var forward_image_3 = new Image();
+							forward_image_3.onload = function() {
+								ctx.globalCompositeOperation = "source-over";
+								var elementSymbolAlpha = parseFloat(document.getElementById("element_symbol_alpha").value);
+								ctx.globalAlpha = elementSymbolAlpha;
+								ctx.drawImage(forward_image_3, 0, 0, 429, 600);
+								
+								if (card_type == "Forward" || card_type == "Backup" || card_type == "Monster") {
+									var card_job = document.getElementById("card_job").value;
+									ctx.font = "16px CardJobFont";
+									ctx.letterSpacing = "1.7px";
+									ctx.globalCompositeOperation = "source-over";
+									ctx.fillStyle = "#fefdfe";
+									ctx.globalAlpha = 1.0;
+									ctx.textAlign = "center";
+									ctx.fillText(card_job, 214, 381);
+									
+									var card_category_1 = document.getElementById("card_category_1").value;
+									var card_category_2 = document.getElementById("card_category_2").value;
+									if (card_category_1 != "0" && card_category_1 != "1") {
+										var card_category_image = new Image();
+										card_category_image.onload = function() {
+											ctx.globalCompositeOperation = "source-over";
+											ctx.drawImage(card_category_image, 0, 0, 429, 600);
+										};
+										if (card_category_2 == "0") {
+											card_category_image.src = "Category/Category_" + card_category_1 + ".png";
+										} else {
+											card_category_image.src = "Category/Category_" + card_category_1 + "_" + card_category_2 + ".png";
+										}
+									}
+								}
+								
+								var card_ability = document.getElementById("ability_textarea").value;
+								var card_special_ability = document.getElementById("special_ability_textarea").value;
+								
+								var final_ability = "";
+								if (card_ability != "" && card_special_ability != "") {
+									final_ability = card_ability + " [Next] " + card_special_ability;
+								} else if (card_ability != "") {
+									final_ability = card_ability;
+								} else {
+									final_ability = card_special_ability;
+								}
+								
+								if (final_ability != "") {
+									renderAbilityText(final_ability);
+								}
+								
+							};
+							forward_image_3.src = "Forward/" + card_element + "_Forward_3.png";
+						};
+						forward_image_2.src = "" + card_type + "/" + card_element + "_" + card_type + "_2.png";
+					};
+					forward_image_1.src = "" + card_type + "/" + card_element + "_" + card_type + "_1.png";
+				}
+			}
+			var backgroundImageSource = document.getElementById("background_image_container").src;
+			//console.log("backgroundImageSource: " + backgroundImageSource);
+			if (backgroundImageSource.indexOf("data") == 0) {
+				card_background_image.src = backgroundImageSource;
+			} else {
+				card_background_image.src = "Resources/canvas.png";
+			}
+		}
+		
+		function renderAbilityText(ability) {
+			// console.log("text: " + ability);
+			
+			var debugWordSpacing = false;
+		
+			const ctx = card_canvas.getContext("2d");
+			
+			var startX = 20;
+			var startY = 413;
+			
+			var x = 0;
+			var y = 0;
+			var lineHeight = parseInt(document.getElementById("line_height").value);
+			var fixWidth = (429 - 40);
+			var fontSize = document.getElementById("font_size").value + "px";
+			
+			var fontElement = fontSize + " CardAbilityFont";
+			var fontColor = "#fefdfe";
+			
+			var wordArray = ability.split(" ");
+			for (var i = 0; i < wordArray.length; i++) {
+				var myWord = wordArray[i];
+				
+				var wordElement = null;
+				var imageElement = null;
+				
+				switch (myWord) {
+					case "[Next]":
+						x = 0;
+						y += lineHeight;
+						break;
+					case "<i>":
+						fontElement = "Italic " + fontSize + " CardAbilityFont_Italic";
+						break;
+					case "</i>":
+						fontElement = fontSize + " CardAbilityFont";
+						break;
+					case "<b>":
+						fontElement = "Bold " + fontSize + " CardAbilityFont_Bold";
+						break;
+					case "</b>":
+						fontElement = fontSize + " CardAbilityFont";
+						break;
+					case "<s>":
+						fontElement = "Bold " + fontSize + " CardAbilityFont_Special";
+						fontColor = "#ff9f02";
+						break;
+					case "</s>":
+						fontElement = fontSize + " CardAbilityFont";
+						fontColor = "#fefdfe";
+						break;
+					case "[0]":
+					case "[1]":
+					case "[2]":
+					case "[3]":
+					case "[4]":
+					case "[5]":
+					case "[6]":
+					case "[7]":
+					case "[8]":
+					case "[9]":
+					case "[X]":
+					case "[Fire]":
+					case "[Ice]":
+					case "[Wind]":
+					case "[Earth]":
+					case "[Lightning]":
+					case "[Water]":
+					case "[Light]":
+					case "[Dark]":
+						var ie_1 = myWord.replace("[", "");
+						var ie_2 = ie_1.replace("]", "");
+						imageElement = "cp_icon_" + ie_2;
+						break;
+					case "[Dull]":
+					case "[Crystal]":
+					case "[Multi]":
+					case "[Special]":
+					case "[EXBurst]":
+						var ie_1 = myWord.replace("[", "");
+						var ie_2 = ie_1.replace("]", "");
+						imageElement = ie_2 + "Icon";
+						break;
+					default:
+						//console.log(myWord);
+						wordElement = myWord;
+						break;
+				}
+				
+				if (wordElement != null) {
+					if (debugWordSpacing) console.log("wordElement: " + wordElement);	
+					var fullWordFits = true;
+					
+					for (var idx = 1; idx <= wordElement.length; idx++) {
+						var partialWord = wordElement.substring(0, idx);
+						
+						ctx.font = fontElement;
+						ctx.letterSpacing = "0.5px";
+						ctx.globalCompositeOperation = "source-over";
+						ctx.fillStyle = fontColor;
+						ctx.globalAlpha = 1.0;
+						ctx.textAlign = "left";
+						
+						var textLength = ctx.measureText(partialWord).width;
+						if ((x + textLength) > fixWidth) {
+							x = 0;
+							y += lineHeight;
+							fullWordFits = false;
+							
+							ctx.font = fontElement;
+							ctx.letterSpacing = "0.5px";
+							ctx.globalCompositeOperation = "source-over";
+							ctx.strokeStyle = "black";
+							ctx.lineWidth = 2;
+							ctx.globalAlpha = 0.5;
+							ctx.textAlign = "left";
+							ctx.strokeText(wordElement, startX + x, startY + y);
+							ctx.fillStyle = fontColor;
+							ctx.globalAlpha = 1.0;
+							ctx.textAlign = "left";
+							ctx.fillText(wordElement, startX + x, startY + y);
+							
+							if (debugWordSpacing) console.log("partialPrint - " + (startX + x) + ", " + (startY + y))
+							
+							//console.log("x before - " + x);
+							var allWordLength = ctx.measureText(wordElement).width;
+							x += allWordLength;
+							//console.log("x after - " + x);
+						}
+					}
+					
+					if (fullWordFits) {
+						if (wordElement == "." 
+							|| wordElement == ","
+							|| wordElement == ":") {
+							ctx.font = fontElement;
+							ctx.letterSpacing = "0.5px";
+							ctx.globalCompositeOperation = "source-over";
+							ctx.fillStyle = fontColor;
+							ctx.globalAlpha = 1.0;
+							ctx.textAlign = "left";
+							
+							var punctuationLength = ctx.measureText(" ").width;
+							x -= punctuationLength;
+						}
+					
+						ctx.font = fontElement;
+						//console.log("a - " + fontElement);
+						//console.log("b - " + ctx.font);
+						ctx.letterSpacing = "0.5px";
+						ctx.globalCompositeOperation = "source-over";
+						ctx.strokeStyle = "black";
+						ctx.lineWidth = 2;
+						ctx.globalAlpha = 0.5;
+						ctx.textAlign = "left";
+						ctx.strokeText(wordElement, startX + x, startY + y);
+						ctx.fillStyle = fontColor;
+						ctx.globalAlpha = 1.0;
+						ctx.textAlign = "left";
+						ctx.fillText(wordElement, startX + x, startY + y);
+						
+						if (debugWordSpacing) console.log("fullPrint - " + (startX + x) + ", " + (startY + y))
+						
+						var fullTextLength = ctx.measureText(wordElement).width;
+						x += fullTextLength;
+					}
+				} else if (imageElement != null) {
+					if (debugWordSpacing) console.log("imageElement - " + imageElement);
+					var imageContainer = document.getElementById(imageElement);
+					var imageWidth = imageContainer.width;
+					var imageHeight = imageContainer.height;
+					var offsetX = 0;
+					var offsetY = 2;
+					
+					if (imageElement == "CrystalIcon") {
+						imageWidth = 20;
+						imageHeight = 20;
+						offsetX = 5;
+						offsetY = 4;
+					}
+					
+					if ((x + imageWidth) > fixWidth) {
+						x = 0;
+						y += lineHeight;
+					} 
+					
+					ctx.globalCompositeOperation = "source-over";
+					ctx.drawImage(imageContainer, startX + x, startY + y - imageHeight + offsetY, imageWidth, imageHeight);
+					
+					if (debugWordSpacing) console.log("imagePrint - " + (startX + x) + ", " + (startY + y - imageHeight))
+					
+					x += (imageWidth - offsetX);
+				}
+				
+				if (wordElement != null || imageElement != null) {
+					if (i != (wordArray.length - 1)) {
+						// console.log(i + " - " + wordArray.length + " - " + "not last word");
+						
+						var nextWordElement = null;
+						var nextImageElement = null;
+						
+						switch (wordArray[i + 1]) {
+							default:
+								if (wordArray[i + 1].indexOf("[") != 0) {
+									nextWordElement = "Yes";
+								} else if (wordArray[i + 1].indexOf("[") == 0) {
+									nextImageElement = "Yes";
+								}
+								break;
+						}
+						
+						// console.log("nextWordElement - " + nextWordElement);
+						// console.log("nextImageElement - " + nextImageElement);
+						if (nextWordElement != null 
+							|| (wordElement != null && nextImageElement != null)) {
+							// console.log("literal space");
+							var literalSpace = " ";
+							
+							ctx.font = fontElement;
+							ctx.letterSpacing = "0.5px";
+							ctx.globalCompositeOperation = "source-over";
+							ctx.fillStyle = fontColor;
+							ctx.globalAlpha = 1.0;
+							ctx.textAlign = "left";
+							ctx.fillText(literalSpace, startX + x, startY + y);
+							
+							var spaceTextLength = ctx.measureText(literalSpace).width;
+							x += spaceTextLength;
+						} else if (nextImageElement != null) {
+						
+						}
+					}
+				}
+			}
+			
+			setTimeout(function () {
+				refreshCanvas_foreground();
+			}, 200);
+		}
+		
+		function refreshCanvas_foreground() {
+			const ctx = card_canvas.getContext("2d");
+		
+			var card_foreground_image = new Image();
+			card_foreground_image.onload = function() {
+				ctx.globalCompositeOperation = "source-over";
+				ctx.drawImage(card_foreground_image, 0, 0, 429, 600);
+			}
+			
+			var foregroundImageSource = document.getElementById("foreground_image_container").src;
+			//console.log("foregroundImageSource: " + foregroundImageSource);
+			if (foregroundImageSource.indexOf("data") == 0) {
+				card_foreground_image.src = foregroundImageSource;
+			}
+			
+			var border_trim_image = new Image();
+			border_trim_image.onload = function() {
+				// console.log("Attempt trim");
+				ctx.globalCompositeOperation = "destination-out";
+				ctx.drawImage(border_trim_image, 0, 0, 429, 600);
+			}
+			border_trim_image.src = document.getElementById("border_trim_container").src;
+			
+			var unofficial_card_image = new Image();
+			unofficial_card_image.onload = function() {
+				ctx.globalCompositeOperation = "source-over";
+				ctx.drawImage(unofficial_card_image, 0, 0, 429, 600);
+			}
+			unofficial_card_image.src = document.getElementById("unofficial_card_container").src;
+		}
+		
+		function card_type_change() {
+			if (document.getElementById("card_type").value == "Summon") {
+				if (document.getElementById("card_icon").value == "1") { // Multi
+					document.getElementById("card_icon").value = "0";
+				}
+				document.getElementById("card_icon_multicard").setAttribute("hidden", "true");
+			} else {
+				document.getElementById("card_icon_multicard").removeAttribute("hidden");
+			}
+		
+			refreshCanvas();
+		}
+		
+		function card_icon_change() {
+			refreshCanvas();
+		}
+		
+		function card_element_change() {
+			refreshCanvas();
+		}
+		
+		function card_cp_change() {
+			refreshCanvas();
+		}
+		
+		function card_power_change() {
+			refreshCanvas();
+		}
+		
+		function card_name_change() {
+			//var card_name = document.getElementById("card_name").value;
+			//console.log(card_name);
+			
+			refreshCanvas();
+		}
+		
+		function card_job_change() {
+			refreshCanvas();
+		}
+		
+		function card_category_change() {
+			var card_category_1 = document.getElementById("card_category_1").value;
+			if (card_category_1 == "DFF"
+				|| card_category_1 == "LOV"
+				|| card_category_1 == "MOBIUS"
+				|| card_category_1 == "PICTLOGICA"
+				|| card_category_1 == "THEATRHYTHM") {
+				document.getElementById("card_category_2_div").style.display = "table-row";
+			} else {
+				document.getElementById("card_category_2").value = "0";
+				document.getElementById("card_category_2_div").style.display = "none";
+			}
+			
+			refreshCanvas();
+		}
+		
+		function ability_checkbox_change() {
+			if (document.getElementById("ability_checkbox").checked) {
+				document.getElementById("ability_textarea_div").style.display = "block";
+			} else {
+				document.getElementById("ability_textarea_div").style.display = "none";
+			}
+			
+			refreshCanvas();
+		}
+		
+		function special_ability_checkbox_change() {
+			if (document.getElementById("special_ability_checkbox").checked) {
+				document.getElementById("special_ability_textarea_div").style.display = "block";
+			} else {
+				document.getElementById("special_ability_textarea_div").style.display = "none";
+			}
+			
+			refreshCanvas();
+		}
+		
+		function ability_textarea_change() {
+			refreshCanvas();
+		}
+		
+		function special_ability_textarea_change() {
+			refreshCanvas();
+		}
+		
+		function background_image_change(event) {
+			// var imageValue = document.getElementById("background_image").value;
+			// console.log("Image: " + imageValue);
+			
+			var selectedFile = event.target.files[0];
+			var reader = new FileReader();
+			
+			var imgtag = document.getElementById("background_image_container");
+			imgtag.title = selectedFile.name;
+			
+			reader.onload = function(theFile) {
+				imgtag.src = theFile.target.result;
+				//console.log(imgtag.src);
+				
+				//console.log("Background image attempt");
+				refreshCanvas();
+			};
+			
+			reader.readAsDataURL(selectedFile);
+		}
+		
+		function foreground_image_change(event) {
+			// var imageValue = document.getElementById("background_image").value;
+			// console.log("Image: " + imageValue);
+			
+			var selectedFile = event.target.files[0];
+			var reader = new FileReader();
+			
+			var imgtag = document.getElementById("foreground_image_container");
+			imgtag.title = selectedFile.name;
+			
+			reader.onload = function(theFile) {
+				imgtag.src = theFile.target.result;
+				//console.log(imgtag.src);
+				
+				//console.log("Foreground image attempt");
+				refreshCanvas();
+			};
+			
+			reader.readAsDataURL(selectedFile);
+		}
+		
+		function element_symbol_alpha_change() {
+			var alphaValue = document.getElementById("element_symbol_alpha").value.trim();
+			if (isNaN(alphaValue) || alphaValue == "") {
+				alert("Please enter value between 0.0 and 1.0.");
+				document.getElementById("element_symbol_alpha").value = 0.5;
+			} else {
+				var floatAlphaValue = parseFloat(alphaValue);
+				if (floatAlphaValue < 0 || floatAlphaValue > 1) {
+					alert("Please enter value between 0.0 and 1.0.");
+					document.getElementById("element_symbol_alpha").value = 0.5;
+				} else {
+					refreshCanvas();
+				}
+			}
+		}
+		
+		function set_number_change() {
+			generateOctgnOutput();
+		}
+		
+		function card_rarity_change() {
+			generateOctgnOutput();
+		}
+		
+		function line_height_change() {
+			var line_height = document.getElementById("line_height").value.trim();
+			if (isNaN(line_height) || line_height == "") {
+				alert("Please enter a value between 0 and 40.");
+				document.getElementById("line_height").value = "20";
+			} else {
+				var int_line_height = parseInt(line_height);
+				if (int_line_height < 0 || int_line_height > 40) {
+					alert("Please enter a value between 0 and 40.");
+					document.getElementById("line_height").value = "20";
+				} else {
+					refreshCanvas();
+				}
+			}
+		}
+		
+		function font_size_change() {
+			var font_size = document.getElementById("font_size").value.trim();
+			if (isNaN(font_size) || font_size == "") {
+				alert("Please enter a value between 0 and 32.");
+				document.getElementById("font_size").value = "16";
+			} else {
+				var int_font_size = parseInt(font_size);
+				if (int_font_size < 0 || int_font_size > 32) {
+					alert("Please enter a value between 0 and 32.");
+					document.getElementById("font_size").value = "16";
+				} else {
+					refreshCanvas();
+				}
+			}
+		}
+		
+		function openTab(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+		
+		function clearAttachment(field_name) {
+			document.getElementById(field_name).value = "";
+			document.getElementById(field_name).src = "";
+			document.getElementById(field_name + "_container").src = "";
+			
+			refreshCanvas();
+		}
+		
+		function generateGUID() {
+			const random_uuid = uuidv4();
+			document.getElementById("guid_label").innerHTML = random_uuid;
+			
+			generateOctgnOutput();
+		}
+		
+		function uuidv4() {
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+				const r = Math.random() * 16 | 0, 
+					v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+		}
+		
+		function generateOctgnOutput() {
+			var myOutput = "";
+		
+			var card_name = document.getElementById("card_name").value;
+			var guid_value = document.getElementById("guid_label").innerHTML;
+			
+			if (card_name.indexOf("'") == -1) {
+				myOutput += "<card name='" + card_name + "' id='" + guid_value + "'>";
+			} else {
+				myOutput += '<card name="' + card_name + '" id="' + guid_value + '">';
+			}
+			
+			var set_number = document.getElementById("set_number").value;
+			myOutput += "\n	<property name='SetNumber' value='" + set_number + "'/>";
+			
+			var card_rarity = document.getElementById("card_rarity").value;
+			myOutput += "\n	<property name='Rarity' value='" + card_rarity + "'/>";
+			
+			var card_cp = document.getElementById("card_cp").value;
+			myOutput += "\n	<property name='CP' value='" + card_cp + "'/>";
+			
+			var card_element = document.getElementById("card_element").value;
+			myOutput += "\n	<property name='Element' value='" + card_element + "'/>";
+			myOutput += "\n	<property name='ElementContainer' value='" + card_element + "'/>";
+			
+			var card_type = document.getElementById("card_type").value;
+			myOutput += "\n	<property name='Type' value='" + card_type + "'/>";
+			myOutput += "\n	<property name='TypeContainer' value='" + card_type + "'/>";
+			
+			var card_job = document.getElementById("card_job").value;
+			card_job = card_job.replace("/", " - ").replace("/", " - ");
+			if (card_job.indexOf("'") == -1) {
+				myOutput += "\n	<property name='Job' value='" + card_job + "'/>";
+				myOutput += "\n	<property name='JobContainer' value='" + card_job + "'/>";
+			} else {
+				myOutput += '\n	<property name="Job" value="' + card_job + '"/>';
+				myOutput += '\n	<property name="JobContainer" value="' + card_job + '"/>';
+			}
+			
+			var card_category_1 = document.getElementById("card_category_1").value;
+			var card_category_2 = document.getElementById("card_category_2").value;
+			var final_category = card_category_1;
+			if (card_category_2 != "0") final_category += " - " + card_category_2;
+			myOutput += "\n	<property name='Category' value='" + final_category + "'/>";
+			myOutput += "\n	<property name='CategoryContainer' value='" + final_category + "'/>";
+			
+			var card_power = document.getElementById("card_power").value;
+			if (document.getElementById("card_power").value == 0) card_power = "";
+			myOutput += "\n	<property name='Power' value='" + card_power + "'/>";
+			myOutput += "\n	<property name='PowerContainer' value='" + card_power + "|0|0|0'/>";
+			
+			var card_ability = document.getElementById("ability_textarea").value;
+			myOutput += "\n	<property name='Abilities'>" + card_ability + "</property>";
+			
+			var special_ability = document.getElementById("special_ability_textarea").value;
+			myOutput += "\n	<property name='SpecialAbilities'>" + special_ability + "</property>";
+			
+			var card_icon = document.getElementById("card_icon").value;
+			var is_multi = (card_icon == "1") ? "TRUE" : "FALSE";
+			var is_EX = (card_icon == "2") ? "TRUE" : "FALSE";
+			
+			myOutput += "\n	<property name='AbilitiesContainer' value='" + "" + "'/>";
+			myOutput += "\n	<property name='Multicard' value='" + is_multi + "'/>";
+			myOutput += "\n	<property name='EXBurst' value='" + is_EX + "'/>";
+			myOutput += "\n	<property name='Active' value='" + "FALSE" + "'/>";
+			
+			myOutput += "\n</card>";
+			
+			// Symbol replacement
+			
+			while (myOutput.indexOf("[Next] ") != -1) {
+				myOutput = myOutput.replace("[Next] ", "\n");
+			}
+			while (myOutput.indexOf("<i> ") != -1) {
+				myOutput = myOutput.replace("<i> ", "<i>");
+			}
+			while (myOutput.indexOf("</i> ") != -1) {
+				myOutput = myOutput.replace("</i> ", "</i>");
+			}
+			while (myOutput.indexOf("<b> ") != -1) {
+				myOutput = myOutput.replace("<b> ", "<b>");
+			}
+			while (myOutput.indexOf("</b> ") != -1) {
+				myOutput = myOutput.replace("</b> ", "</b>");
+			}
+			while (myOutput.indexOf("<s> ") != -1) {
+				myOutput = myOutput.replace("<s> ", '<c value="#ef8206"><b>');
+			}
+			while (myOutput.indexOf("</s> ") != -1) {
+				myOutput = myOutput.replace("</s> ", "</b></c>");
+			}
+			
+			while (myOutput.indexOf("[Fire]") != -1) {
+				myOutput = myOutput.replace('[Fire]', '<s value="FireCP">Fire CP</s>');
+			}
+			while (myOutput.indexOf("[Ice]") != -1) {
+				myOutput = myOutput.replace('[Ice]', '<s value="IceCP">Ice CP</s>');
+			}
+			while (myOutput.indexOf("[Wind]") != -1) {
+				myOutput = myOutput.replace('[Wind]', '<s value="WindCP">Wind CP</s>');
+			}
+			while (myOutput.indexOf("[Earth]") != -1) {
+				myOutput = myOutput.replace('[Earth]', '<s value="EarthCP">Earth CP</s>');
+			}
+			while (myOutput.indexOf("[Lightning]") != -1) {
+				myOutput = myOutput.replace('[Lightning]', '<s value="LightningCP">Lightning CP</s>');
+			}
+			while (myOutput.indexOf("[Water]") != -1) {
+				myOutput = myOutput.replace('[Water]', '<s value="WaterCP">Water CP</s>');
+			}
+			while (myOutput.indexOf("[Light]") != -1) {
+				myOutput = myOutput.replace('[Light]', '<s value="LightCP">Light CP</s>');
+			}
+			while (myOutput.indexOf("[Dark]") != -1) {
+				myOutput = myOutput.replace('[Dark]', '<s value="DarkCP">Dark CP</s>');
+			}
+			
+			while (myOutput.indexOf("[0]") != -1) {
+				myOutput = myOutput.replace('[0]', '<s value="0CP">0 CP</s>');
+			}
+			while (myOutput.indexOf("[1]") != -1) {
+				myOutput = myOutput.replace('[1]', '<s value="1CP">1 CP</s>');
+			}
+			while (myOutput.indexOf("[2]") != -1) {
+				myOutput = myOutput.replace('[2]', '<s value="2CP">2 CP</s>');
+			}
+			while (myOutput.indexOf("[3]") != -1) {
+				myOutput = myOutput.replace('[3]', '<s value="3CP">3 CP</s>');
+			}
+			while (myOutput.indexOf("[4]") != -1) {
+				myOutput = myOutput.replace('[4]', '<s value="4CP">4 CP</s>');
+			}
+			while (myOutput.indexOf("[5]") != -1) {
+				myOutput = myOutput.replace('[5]', '<s value="5CP">5 CP</s>');
+			}
+			while (myOutput.indexOf("[6]") != -1) {
+				myOutput = myOutput.replace('[6]', '<s value="6CP">6 CP</s>');
+			}
+			while (myOutput.indexOf("[7]") != -1) {
+				myOutput = myOutput.replace('[7]', '<s value="7CP">7 CP</s>');
+			}
+			while (myOutput.indexOf("[8]") != -1) {
+				myOutput = myOutput.replace('[8]', '<s value="8CP">8 CP</s>');
+			}
+			while (myOutput.indexOf("[9]") != -1) {
+				myOutput = myOutput.replace('[9]', '<s value="9CP">9 CP</s>');
+			}
+			while (myOutput.indexOf("[X]") != -1) {
+				myOutput = myOutput.replace('[X]', '<s value="XCP">X CP</s>');
+			}
+			
+			while (myOutput.indexOf("[Dull]") != -1) {
+				myOutput = myOutput.replace('[Dull]', '<s value="Dull">Dull</s>');
+			}
+			while (myOutput.indexOf("[Special]") != -1) {
+				myOutput = myOutput.replace('[Special]', '<s value="Special">Special</s>');
+			}
+			while (myOutput.indexOf("[Crystal]") != -1) {
+				myOutput = myOutput.replace('[Crystal]', '<s value="Crystal">Crystal</s>');
+			}
+			while (myOutput.indexOf("[Multi]") != -1) {
+				myOutput = myOutput.replace('[Multi]', 'Multicard');
+			}
+			while (myOutput.indexOf("[EXBurst]") != -1) {
+				myOutput = myOutput.replace('[EXBurst]', '<s value="EXBurst">EX Burst</s>');
+			}
+			
+			while (myOutput.indexOf(" .") != -1) {
+				myOutput = myOutput.replace(" .", ".");
+			}
+			while (myOutput.indexOf(" ,") != -1) {
+				myOutput = myOutput.replace(" ,", ",");
+			}
+			while (myOutput.indexOf(" :") != -1) {
+				myOutput = myOutput.replace(" :", ":");
+			}
+			
+			// console.log("myOutput: " + myOutput);
+			
+			while (myOutput.indexOf("<") != -1) {
+				myOutput = myOutput.replace("<", "&lt;");
+			}
+			while (myOutput.indexOf(">") != -1) {
+				myOutput = myOutput.replace(">", "&gt;");
+			}
+			
+			document.getElementById("octgn_output_label").innerHTML = myOutput;
+		}
+	</script>
+
+    <table class='mainTable'>
+		<tr>
+			<td>
+				<canvas id="card_canvas" class="canvasFrame" width="429" height="600">
+					
+				</canvas>
+			</td>
+			<td class='optionSide'>
+				<div class="tab">
+					<button class="tablinks active" onclick="openTab(event, 'Fields')">Fields</button>
+					<button class="tablinks" onclick="openTab(event, 'Text')">Abilities</button>
+					<button class="tablinks" onclick="openTab(event, 'Background')">Background</button>
+					<button class="tablinks" onclick="openTab(event, 'OCTGN')">OCTGN</button>
+					<button class="tablinks" onclick="openTab(event, 'About')">About</button>
+				</div>
+				
+				<div id="Fields" class="tabcontent" style="display: block;">
+					<!-- <h3>London</h3>
+					<p>London is the capital city of England.</p> -->
+					<table class="tabTable">
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Name</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="card_name" name="card_name" class="smallTextBox" onchange="card_name_change();"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Card Type</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_type" id="card_type" class="tabDropdown" onchange="card_type_change();">
+									<option value="Forward" selected="selected">Forward</option>
+									<option value="Backup">Backup</option>
+									<option value="Summon">Summon</option>
+									<option value="Monster">Monster</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Card Icon</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_icon" id="card_icon" class="tabDropdown" onchange="card_icon_change();">
+									<option value="0" selected="selected">---</option>
+									<option id="card_icon_multicard" value="1">Multicard</option>
+									<option value="2">EX Burst</option>
+									<option value="3">Limit Break</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Element</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_element" id="card_element" class="tabDropdown" onchange="card_element_change();">
+									<option value="Fire" selected="selected">Fire</option>
+									<option value="Ice">Ice</option>
+									<option value="Wind">Wind</option>
+									<option value="Earth">Earth</option>
+									<option value="Lightning">Lightning</option>
+									<option value="Water">Water</option>
+									<option value="Light">Light</option>
+									<option value="Dark">Dark</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="smallLabel">Element Symbol Alpha</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="element_symbol_alpha" name="element_symbol_alpha" class="smallTextBox" onchange="element_symbol_alpha_change();" value="0.7"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">CP</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_cp" id="card_cp" class="tabDropdown" onchange="card_cp_change();">
+									<option value="1" selected="selected">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Category 1</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_category_1" id="card_category_1" class="tabDropdown" onchange="card_category_change();">
+									<option value="0" selected="selected">---</option>
+									<option value="I">I</option>
+									<option value="II">II</option>
+									<option value="III">III</option>
+									<option value="IV">IV</option>
+									<option value="V">V</option>
+									<option value="VI">VI</option>
+									<option value="VII">VII</option>
+									<option value="VIII">VIII</option>
+									<option value="IX">IX</option>
+									<option value="X">X</option>
+									<option value="XI">XI</option>
+									<option value="XII">XII</option>
+									<option value="XIII">XIII</option>
+									<option value="XIV">XIV</option>
+									<option value="XV">XV</option>
+									<option value="XVI">XVI</option>
+									<option value="FFBE">FFBE</option>
+									<option value="FFCC">FFCC</option>
+									<option value="FFEX">FFEX</option>
+									<option value="FFL">FFL</option>
+									<option value="FFRK">FFRK</option>
+									<option value="FFT">FFT</option>
+									<option value="FFTA">FFTA</option>
+									<option value="FFTA2">FFTA2</option>
+									<option value="SOPFFO">SOPFFO</option>
+									<option value="TYPE-0">TYPE-0</option>
+									<option value="WOFF">WOFF</option>
+									<option value="Special">Special</option>
+									<option value="1">---</option>
+									<option value="DFF">DFF</option>
+									<option value="LOV">LOV</option>
+									<option value="MOBIUS">MOBIUS</option>
+									<option value="PICTLOGICA">PICTLOGICA</option>
+									<option value="THEATRHYTHM">THEATRHYTHM</option>
+								</select>
+							</td>
+						</tr>
+						<tr id="card_category_2_div" style="display: none;">
+							<td class="leftRow">
+								<label class="mainLabel">Category 2</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_category_2" id="card_category_2" class="tabDropdown" onchange="card_element_change();">
+									<option value="0" selected="selected">---</option>
+									<option value="I">I</option>
+									<option value="II">II</option>
+									<option value="III">III</option>
+									<option value="IV">IV</option>
+									<option value="V">V</option>
+									<option value="VI">VI</option>
+									<option value="VII">VII</option>
+									<option value="VIII">VIII</option>
+									<option value="IX">IX</option>
+									<option value="X">X</option>
+									<option value="XI">XI</option>
+									<option value="XII">XII</option>
+									<option value="XIII">XIII</option>
+									<option value="XIV">XIV</option>
+									<option value="XV">XV</option>
+									<option value="XVI">XVI</option>
+									<option value="FFBE">FFBE</option>
+									<option value="FFCC">FFCC</option>
+									<option value="FFEX">FFEX</option>
+									<option value="FFL">FFL</option>
+									<option value="FFRK">FFRK</option>
+									<option value="FFT">FFT</option>
+									<option value="FFTA">FFTA</option>
+									<option value="FFTA2">FFTA2</option>
+									<option value="SOPFFO">SOPFFO</option>
+									<option value="TYPE-0">TYPE-0</option>
+									<option value="WOFF">WOFF</option>
+									<option value="Special">Special</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Job</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="card_job" name="card_job" class="smallTextBox" onchange="card_job_change();"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Power</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_power" id="card_power" class="tabDropdown" onchange="card_power_change();">
+									<option value="0" selected="selected">---</option>
+									<option value="1000">1000</option>
+									<option value="2000">2000</option>
+									<option value="3000">3000</option>
+									<option value="4000">4000</option>
+									<option value="5000">5000</option>
+									<option value="6000">6000</option>
+									<option value="7000">7000</option>
+									<option value="8000">8000</option>
+									<option value="9000">9000</option>
+									<option value="10000">10000</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</div>
+	
+				<div id="Text" class="tabcontent">
+					<table class="tabTable">
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">Ability Text</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<textarea id="ability_textarea" name="ability_textarea" class="tabTextArea" onchange="ability_textarea_change();">Sample text <i> to </i> <b> render </b> .</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">Special Ability Text</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<textarea id="special_ability_textarea" name="special_ability_textarea" class="tabTextArea" onchange="special_ability_textarea_change();"><s> Special Ability </s> [Special] : Some more text</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="smallLabel">Font Size</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="font_size" name="font_size" class="smallTextBox" onchange="font_size_change();" value="16"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="smallLabel">Line Height</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="line_height" name="line_height" class="smallTextBox" onchange="line_height_change();" value="20"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Symbols</label>
+							</td>
+							<td class="rightRow">
+								<label class="smallLabel">(hover to view code)</label>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<table id="symbolTable">
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Fire.png" width="48" height="48" title="[Fire]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Ice.png" width="48" height="48" title="[Ice]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Wind.png" width="48" height="48" title="[Wind]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Earth.png" width="48" height="48" title="[Earth]"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Lightning.png" width="48" height="48" title="[Lightning]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Water.png" width="48" height="48" title="[Water]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Light.png" width="48" height="48" title="[Light]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Dark.png" width="48" height="48" title="[Dark]"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_0.png" width="48" height="48" title="[0]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_1.png" width="48" height="48" title="[1]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_2.png" width="48" height="48" title="[2]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_3.png" width="48" height="48" title="[3]"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_4.png" width="48" height="48" title="[4]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_5.png" width="48" height="48" title="[5]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_6.png" width="48" height="48" title="[6]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_7.png" width="48" height="48" title="[7]"/>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_8.png" width="48" height="48" title="[8]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_9.png" width="48" height="48" title="[9]"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_X.png" width="48" height="48" title="[X]"/>
+										</td>
+										<td>
+											
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/dullIcon.png" width="48" height="48" title="[Dull]"/>
+										</td>
+										<td>
+											<img src="Symbols/specialIcon.png" width="48" height="48" title="[Special]"/>
+										</td>
+										<td>
+											<img src="Symbols/multiIcon.png" width="48" height="48" title="[Multi]"/>
+										</td>
+										<td>
+											<img src="Symbols/crystalIcon.png" width="48" height="48" title="[Crystal]"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<img src="Symbols/exBurstIcon.png" width="96" height="48" title="[EXBurst]"/>
+										</td>
+										<td>
+										</td>
+										<td>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow" colspan="2">
+								<label class="mainLabel">Tags</label>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<table id="codeTable">
+									<tr>
+										<td class="tagColumn">[Next]</td>
+										<td>New line</td>
+									</tr>
+									<tr>
+										<td class="tagColumn" id="italicTag">
+											&lt;i&gt; &lt;/i&gt;
+										</td>
+										<td>Italic text</td>
+									</tr>
+									<tr>
+										<td class="tagColumn" id="boldTag">
+											&lt;b&gt; &lt;/b&gt;
+										</td>
+										<td>Bold text</td>
+									</tr>
+									<tr>
+										<td class="tagColumn" id="specialTag">
+											&lt;s&gt; &lt;/s&gt;
+										</td>
+										<td>Special ability<br/>text</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow" colspan="2">
+								<label class="mainLabel">Notes</label>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<table id="notesTable">
+									<tr>
+										<td>All words/symbols/tags should be seperated by a space.</td>
+									</tr>
+									<tr>
+										<td>Punctuation (. , :) can go directly after a word, but if it would go after a symbol or tag, seperate with a space.</td>
+									</tr>
+									<tr>
+										<td>Sometimes it takes multiple tries before the italic/bold/special text renders as such.</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+					
+					<div id="symbols_div" style="display: none;">
+						<img src="Symbols/cpIcon_0.png" width="14" height="14" id="cp_icon_0"/>
+						<img src="Symbols/cpIcon_1.png" width="14" height="14" id="cp_icon_1"/>
+						<img src="Symbols/cpIcon_2.png" width="14" height="14" id="cp_icon_2"/>
+						<img src="Symbols/cpIcon_3.png" width="14" height="14" id="cp_icon_3"/>
+						<img src="Symbols/cpIcon_4.png" width="14" height="14" id="cp_icon_4"/>
+						<img src="Symbols/cpIcon_5.png" width="14" height="14" id="cp_icon_5"/>
+						<img src="Symbols/cpIcon_6.png" width="14" height="14" id="cp_icon_6"/>
+						<img src="Symbols/cpIcon_7.png" width="14" height="14" id="cp_icon_7"/>
+						<img src="Symbols/cpIcon_8.png" width="14" height="14" id="cp_icon_8"/>
+						<img src="Symbols/cpIcon_9.png" width="14" height="14" id="cp_icon_9"/>
+						<img src="Symbols/cpIcon_X.png" width="14" height="14" id="cp_icon_X"/>
+						<img src="Symbols/cpIcon_Fire.png" width="14" height="14" id="cp_icon_Fire"/>
+						<img src="Symbols/cpIcon_Ice.png" width="14" height="14" id="cp_icon_Ice"/>
+						<img src="Symbols/cpIcon_Wind.png" width="14" height="14" id="cp_icon_Wind"/>
+						<img src="Symbols/cpIcon_Earth.png" width="14" height="14" id="cp_icon_Earth"/>
+						<img src="Symbols/cpIcon_Lightning.png" width="14" height="14" id="cp_icon_Lightning"/>
+						<img src="Symbols/cpIcon_Water.png" width="14" height="14" id="cp_icon_Water"/>
+						<img src="Symbols/cpIcon_Light.png" width="14" height="14" id="cp_icon_Light"/>
+						<img src="Symbols/cpIcon_Dark.png" width="14" height="14" id="cp_icon_Dark"/>
+						<img src="Symbols/crystalIcon.png" width="14" height="14" id="CrystalIcon"/>
+						<img src="Symbols/dullIcon.png" width="14" height="14" id="DullIcon"/>
+						<img src="Symbols/multiIcon.png" width="14" height="14" id="MultiIcon"/>
+						<img src="Symbols/specialIcon.png" width="14" height="14" id="SpecialIcon"/>
+						<img src="Symbols/exBurstIcon.png" width="55" height="14" id="EXBurstIcon"/>
+					</div>
+				</div>
+	
+				<div id="Background" class="tabcontent">		
+					<table class="tabTable">
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">Background Image</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="file" id="background_image" name="background_image" accept="image/png, image/gif, image/jpeg" onchange="background_image_change(event);" />
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<button class="tablinks" onclick="clearAttachment('background_image')">Clear</button>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<img src="" id="background_image_container" width="429" height="600"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">Foreground Image</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="file" id="foreground_image" name="foreground_image" accept="image/png, image/gif, image/jpeg" onchange="foreground_image_change(event);" />
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<button class="tablinks" onclick="clearAttachment('foreground_image')">Clear</button>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<img src="" id="foreground_image_container" width="429" height="600"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow" colspan="2">
+								<label class="mainLabel">Notes</label>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<table id="sizeTable">
+									<tr>
+										<td>Image size is 429 x 600</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<img src="Resources/borderTrim.png" id="border_trim_container" width="429" height="600" style="display: none;"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<img src="Resources/unofficialCard.png" id="unofficial_card_container" width="429" height="600" style="display: none;"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div id="OCTGN" class="tabcontent">		
+					<table class="tabTable">
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">GUID</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label id="guid_label">1234</label>
+							</td>
+							<td class="rightRow">
+								<button class="tablinks" onclick="generateGUID();">Generate</button>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Set Number</label>
+							</td>
+							<td class="rightRow">
+								<input type="text" id="set_number" name="set_number" class="smallTextBox" onchange="set_number_change();"/>
+							</td>
+						</tr>
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Power</label>
+							</td>
+							<td class="rightRow">
+								<select name="card_rarity" id="card_rarity" class="tabDropdown" onchange="card_rarity_change();">
+									<option value="Common" selected="selected">Common</option>
+									<option value="Uncommon">Uncommon</option>
+									<option value="Hero">Hero</option>
+									<option value="Legend">Legend</option>
+									<option value="Fixed">Fixed</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">OCTGN Output</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<pre id="octgn_output_label" style="font-size: 12px"></pre>
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div id="About" class="tabcontent">		
+					<table class="tabTable">
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Version 1.0</label>
+							</td>
+							<td class="rightRow">
+								<label class="miniLabel">01/10/24</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<pre style="font-size: 12px">
+									<ul>
+										<li>First version</li>
+									</ul>
+								</pre>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		</tr>
+	</table>
 </body>
 </html>

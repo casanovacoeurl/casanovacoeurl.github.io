@@ -1,0 +1,147 @@
+@font-face {
+    font-family: 'CardNameFont';
+    src: url("Resources/OPTILatin-Elongated.otf");
+}
+
+@font-face {
+    font-family: 'CardJobFont';
+    src: url("Resources/FuturaNowHeadlineBold.ttf");
+}
+
+@font-face {
+    font-family: 'CardAbilityFont';
+    src: url("Resources/GaramondPremrPro-SmbdSubh.ttf");
+}
+
+@font-face {
+    font-family: 'CardAbilityFont_Italic';
+    src: url("Resources/GaramondPremrPro-SmbdItCapt.ttf");
+}
+
+@font-face {
+    font-family: 'CardAbilityFont_Bold';
+    src: url("Resources/NimbusSanL-Bold.otf");
+}
+
+@font-face {
+    font-family: 'CardAbilityFont_Special';
+    src: url("Resources/Futura Bold Condensed Oblique.otf");
+}
+
+.mainTable {
+	border: 1px solid black;
+	width: 1024px;
+	height: 768px;
+}
+
+.canvasFrame {
+	border: 1px solid black;
+	/* background-color: gray; */
+	margin: 20px;
+	width: 429px;
+	height: 600px;
+}
+
+.optionSide {
+	vertical-align: top;
+	width: 500px;
+}
+
+.optionTable {
+	margin-top: 20px;
+}
+
+/* Style the tab */
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+  height: 690px;
+  overflow-y: scroll;
+}
+
+.tabTable {
+	width: 100%;
+	font-family: Arial;
+}
+
+.leftRow {
+	width: 50%;
+	text-align: left;
+}
+
+.rightRow {
+	width: 50%;
+	text-align: right;
+}
+
+.fullRow {
+	width: 100%;
+	text-align: left;
+}
+
+.mainLabel {
+	font-size: 17px;
+}
+
+.smallLabel {
+	font-size: 13px;
+}
+
+.smallTextBox {
+	width: 100%;
+}
+
+.tabDropdown {
+	width: 100%;
+	font-size: 17px;
+}
+
+.tabTextArea {
+	width: 100%;
+}
+
+#symbolTable, #codeTable, #notesTable, #sizeTable {
+	width: 100%;
+	text-align: center;
+	background-color: #f1f1f1;
+	border: 1px solid #cccccc;
+}
+
+.tagColumn {
+	width: 100px;
+}
+
+#background_image_container, #foreground_image_container {
+	display: none;
+}
