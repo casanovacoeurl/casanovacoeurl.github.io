@@ -797,7 +797,24 @@
 			var is_multi = (card_icon == "1") ? "TRUE" : "FALSE";
 			var is_EX = (card_icon == "2") ? "TRUE" : "FALSE";
 			
-			myOutput += "\n	<property name='AbilitiesContainer' value='" + "" + "'/>";
+			// AbilitiesContainer
+			var abilityArray = [];
+			
+			// Special Ability (1)
+			// SpecialAbility1|Double Jump_1/0/0/0/0/0/0/0/0_No_None_None
+			if (document.getElementById("checkbox_ac_001").checked) {
+				var thisAbility = "SpecialAbility1|" + document.getElementById("name_ac_001").value + "_" + document.getElementById("fire_ac_001").value + "/" + document.getElementById("ice_ac_001").value + "/" + document.getElementById("wind_ac_001").value + "/" + document.getElementById("earth_ac_001").value + "/" + document.getElementById("lightning_ac_001").value + "/" + document.getElementById("water_ac_001").value + "/" + document.getElementById("light_ac_001").value + "/" + document.getElementById("dark_ac_001").value + "/" + document.getElementById("extra_ac_001").value + "_" + document.getElementById("dull_ac_001").value + "_None_None"
+				abilityArray.push(thisAbility);
+			}
+			
+			// Special Ability (2)
+			// SpecialAbility2|Double Jump_1/0/0/0/0/0/0/0/0_No_None_None
+			if (document.getElementById("checkbox_ac_002").checked) {
+				var thisAbility = "SpecialAbility2|" + document.getElementById("name_ac_002").value + "_" + document.getElementById("fire_ac_002").value + "/" + document.getElementById("ice_ac_002").value + "/" + document.getElementById("wind_ac_002").value + "/" + document.getElementById("earth_ac_002").value + "/" + document.getElementById("lightning_ac_002").value + "/" + document.getElementById("water_ac_002").value + "/" + document.getElementById("light_ac_002").value + "/" + document.getElementById("dark_ac_002").value + "/" + document.getElementById("extra_ac_002").value + "_" + document.getElementById("dull_ac_002").value + "_None_None"
+				abilityArray.push(thisAbility);
+			}
+			
+			myOutput += "\n	<property name='AbilitiesContainer' value='" + abilityArray.join("][") + "'/>";
 			myOutput += "\n	<property name='Multicard' value='" + is_multi + "'/>";
 			myOutput += "\n	<property name='EXBurst' value='" + is_EX + "'/>";
 			myOutput += "\n	<property name='Active' value='" + "FALSE" + "'/>";
@@ -923,6 +940,58 @@
 			}
 			
 			document.getElementById("octgn_output_label").innerHTML = myOutput;
+		}
+		
+		function ability_container_change() {
+			generateOctgnOutput();
+		}
+		
+		function checkbox_ac_001_change() {
+			if (document.getElementById("checkbox_ac_001").checked) {
+				document.getElementById("table_ac_001").style.display = "table";
+			} else {
+				document.getElementById("table_ac_001").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function element_ac_001_change(myElement) {
+			var myValue = myElement.value.trim();
+			if (isNaN(myValue) || myValue == "") {
+				myElement.value = "0";
+			} else {
+				var myInt = parseInt(myValue);
+				if (myInt < 0) {
+					myElement.value = "0";
+				}
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_002_change() {
+			if (document.getElementById("checkbox_ac_002").checked) {
+				document.getElementById("table_ac_002").style.display = "table";
+			} else {
+				document.getElementById("table_ac_002").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function element_ac_002_change(myElement) {
+			var myValue = myElement.value.trim();
+			if (isNaN(myValue) || myValue == "") {
+				myElement.value = "0";
+			} else {
+				var myInt = parseInt(myValue);
+				if (myInt < 0) {
+					myElement.value = "0";
+				}
+			}
+		
+			ability_container_change();
 		}
 	</script>
 
@@ -1480,11 +1549,199 @@
 								<pre id="octgn_output_label" style="font-size: 12px"></pre>
 							</td>
 						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<label class="mainLabel">AbilitiesContainer</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_001" onchange="checkbox_ac_001_change();"/>
+								<label class="miniLabel">Special Ability (1)</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_001" class="acTable" style="display: none;">
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Name</label>
+										</td>
+										<td colspan="6">
+											<input type="text" id="name_ac_001" name="name_ac_001" class="smallTextBox" value="name of ability" onchange="ability_container_change();"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Dull to Use</label>
+										</td>
+										<td colspan="6">
+											<select name="dull_ac_001" id="dull_ac_001" class="tabDropdown" onchange="ability_container_change();">
+												<option value="Yes">Yes</option>
+												<option value="No" selected="selected">No</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="9">
+											<label class="mainLabel" style="text-align: left;">Elements</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Fire.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="fire_ac_001" name="fire_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Ice.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="ice_ac_001" name="ice_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Wind.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="wind_ac_001" name="wind_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Earth.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="earth_ac_001" name="earth_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Lightning.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="lightning_ac_001" name="lightning_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Water.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="water_ac_001" name="water_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Light.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="light_ac_001" name="light_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Dark.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="dark_ac_001" name="dark_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_X.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="extra_ac_001" name="extra_ac_001" class="smallTextBox" value="0" onchange="element_ac_001_change(this);"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_002" onchange="checkbox_ac_002_change();"/>
+								<label class="miniLabel">Special Ability (2)</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_002" class="acTable" style="display: none;">
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Name</label>
+										</td>
+										<td colspan="6">
+											<input type="text" id="name_ac_002" name="name_ac_002" class="smallTextBox" value="name of ability" onchange="ability_container_change();"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Dull to Use</label>
+										</td>
+										<td colspan="6">
+											<select name="dull_ac_002" id="dull_ac_002" class="tabDropdown" onchange="ability_container_change();">
+												<option value="Yes">Yes</option>
+												<option value="No" selected="selected">No</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="9">
+											<label class="mainLabel" style="text-align: left;">Elements</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Fire.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="fire_ac_002" name="fire_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Ice.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="ice_ac_002" name="ice_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Wind.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="wind_ac_002" name="wind_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Earth.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="earth_ac_002" name="earth_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Lightning.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="lightning_ac_002" name="lightning_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Water.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="water_ac_002" name="water_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Light.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="light_ac_002" name="light_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Dark.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="dark_ac_002" name="dark_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_X.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="extra_ac_002" name="extra_ac_002" class="smallTextBox" value="0" onchange="element_ac_002_change(this);"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
 					</table>
 				</div>
 				
 				<div id="About" class="tabcontent">		
 					<table class="tabTable">
+						<tr>
+							<td class="leftRow">
+								<label class="mainLabel">Version 1.01</label>
+							</td>
+							<td class="rightRow">
+								<label class="miniLabel">03/10/24</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<pre style="font-size: 12px">
+									<ul>
+										<li>Adding simple abilities to be caught in AbilitiesContainer</li>
+									</ul>
+								</pre>
+							</td>
+						</tr>
 						<tr>
 							<td class="leftRow">
 								<label class="mainLabel">Version 1.0</label>

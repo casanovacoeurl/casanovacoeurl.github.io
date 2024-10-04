@@ -131,7 +131,7 @@
 	width: 100%;
 }
 
-#symbolTable, #codeTable, #notesTable, #sizeTable {
+#symbolTable, #codeTable, #notesTable, #sizeTable, .acTable {
 	width: 100%;
 	text-align: center;
 	background-color: #f1f1f1;
