@@ -736,6 +736,21 @@
 			});
 		}
 		
+		function copyToClipboard() {
+			var copyText = document.getElementById("octgn_output_label").innerHTML;
+			
+			while (copyText.indexOf("&lt;") != -1) {
+				copyText = copyText.replace("&lt;", "<");
+			}
+			while (copyText.indexOf("&gt;") != -1) {
+				copyText = copyText.replace("&gt;", ">");
+			}
+			
+			navigator.clipboard.writeText(copyText);
+			
+			alert("Copied to clipboard.");
+		}
+		
 		function generateOctgnOutput() {
 			var myOutput = "";
 		
@@ -802,16 +817,117 @@
 			
 			// Special Ability (1)
 			// SpecialAbility1|Double Jump_1/0/0/0/0/0/0/0/0_No_None_None
-			if (document.getElementById("checkbox_ac_001").checked) {
-				var thisAbility = "SpecialAbility1|" + document.getElementById("name_ac_001").value + "_" + document.getElementById("fire_ac_001").value + "/" + document.getElementById("ice_ac_001").value + "/" + document.getElementById("wind_ac_001").value + "/" + document.getElementById("earth_ac_001").value + "/" + document.getElementById("lightning_ac_001").value + "/" + document.getElementById("water_ac_001").value + "/" + document.getElementById("light_ac_001").value + "/" + document.getElementById("dark_ac_001").value + "/" + document.getElementById("extra_ac_001").value + "_" + document.getElementById("dull_ac_001").value + "_None_None"
+			if (document.getElementById("checkbox_ac_001").checked && document.getElementById("name_ac_001").value != "") {
+				var thisAbility = "SpecialAbility1|" + document.getElementById("name_ac_001").value + "_" + document.getElementById("fire_ac_001").value + "/" + document.getElementById("ice_ac_001").value + "/" + document.getElementById("wind_ac_001").value + "/" + document.getElementById("earth_ac_001").value + "/" + document.getElementById("lightning_ac_001").value + "/" + document.getElementById("water_ac_001").value + "/" + document.getElementById("light_ac_001").value + "/" + document.getElementById("dark_ac_001").value + "/" + document.getElementById("extra_ac_001").value + "_" + document.getElementById("dull_ac_001").value + "_None_None";
 				abilityArray.push(thisAbility);
 			}
 			
 			// Special Ability (2)
 			// SpecialAbility2|Double Jump_1/0/0/0/0/0/0/0/0_No_None_None
-			if (document.getElementById("checkbox_ac_002").checked) {
-				var thisAbility = "SpecialAbility2|" + document.getElementById("name_ac_002").value + "_" + document.getElementById("fire_ac_002").value + "/" + document.getElementById("ice_ac_002").value + "/" + document.getElementById("wind_ac_002").value + "/" + document.getElementById("earth_ac_002").value + "/" + document.getElementById("lightning_ac_002").value + "/" + document.getElementById("water_ac_002").value + "/" + document.getElementById("light_ac_002").value + "/" + document.getElementById("dark_ac_002").value + "/" + document.getElementById("extra_ac_002").value + "_" + document.getElementById("dull_ac_002").value + "_None_None"
+			if (document.getElementById("checkbox_ac_002").checked && document.getElementById("name_ac_002").value != "") {
+				var acLabel = "SpecialAbility1";
+				if (document.getElementById("checkbox_ac_001").checked && document.getElementById("name_ac_001").value != "") {
+					acLabel = "SpecialAbility2";
+				}
+			
+				var thisAbility = acLabel + "|" + document.getElementById("name_ac_002").value + "_" + document.getElementById("fire_ac_002").value + "/" + document.getElementById("ice_ac_002").value + "/" + document.getElementById("wind_ac_002").value + "/" + document.getElementById("earth_ac_002").value + "/" + document.getElementById("lightning_ac_002").value + "/" + document.getElementById("water_ac_002").value + "/" + document.getElementById("light_ac_002").value + "/" + document.getElementById("dark_ac_002").value + "/" + document.getElementById("extra_ac_002").value + "_" + document.getElementById("dull_ac_002").value + "_None_None";
 				abilityArray.push(thisAbility);
+			}
+			
+			// Warp
+			// Warp|0/0/1/0/0/0/0/0/0|3
+			if (document.getElementById("checkbox_ac_003").checked) {
+				var thisAbility = "Warp|" + document.getElementById("fire_ac_003").value + "/" + document.getElementById("ice_ac_003").value + "/" + document.getElementById("wind_ac_003").value + "/" + document.getElementById("earth_ac_003").value + "/" + document.getElementById("lightning_ac_003").value + "/" + document.getElementById("water_ac_003").value + "/" + document.getElementById("light_ac_003").value + "/" + document.getElementById("dark_ac_003").value + "/" + document.getElementById("extra_ac_003").value + "|" + document.getElementById("turns_ac_003").value;
+				abilityArray.push(thisAbility);
+			}
+			
+			// Prime
+			// Prime_Dominant|Ifrit (XVI)|1/0/0/0/0/0/0/0/1
+			if (document.getElementById("checkbox_ac_004").checked && document.getElementById("name_ac_004").value != "") {
+				var thisAbility = "Prime_Dominant|" + document.getElementById("name_ac_004").value + "|" + document.getElementById("fire_ac_004").value + "/" + document.getElementById("ice_ac_004").value + "/" + document.getElementById("wind_ac_004").value + "/" + document.getElementById("earth_ac_004").value + "/" + document.getElementById("lightning_ac_004").value + "/" + document.getElementById("water_ac_004").value + "/" + document.getElementById("light_ac_004").value + "/" + document.getElementById("dark_ac_004").value + "/" + document.getElementById("extra_ac_004").value;
+				abilityArray.push(thisAbility);
+			}
+			
+			// Search Deck
+			// SearchForCard1|Search your Deck for Card Name Bahamut|Player_Deck_Name,Is,Bahamut
+			if (document.getElementById("checkbox_ac_005").checked) {
+				var searchArray = [];
+				if (document.getElementById("checkbox_ac_005_nameOrJob").checked) {
+					searchArray.push("NameOrJob,Is," + document.getElementById("nameOrJob_ac_005").value);
+				}
+				if (document.getElementById("checkbox_ac_005_type").checked) {
+					searchArray.push("Type," + document.getElementById("type_ac_005").value);
+				}
+				if (document.getElementById("checkbox_ac_005_element").checked) {
+					searchArray.push("Element,Is," + document.getElementById("element_ac_005").value);
+				}
+				if (document.getElementById("checkbox_ac_005_category").checked) {
+					searchArray.push("Category,Is," + document.getElementById("category_ac_005").value);
+				}
+				if (document.getElementById("checkbox_ac_005_cost").checked) {
+					searchArray.push("CP," + document.getElementById("cost_ac_005_dropdown").value + "," + document.getElementById("cost_ac_005_number").value);
+				}
+				
+				if (searchArray.length > 0) {
+					var thisAbility = "SearchForCard1|Search your Deck for a card|Player_Deck_" + searchArray.join("AND");
+					abilityArray.push(thisAbility);
+				}
+			}
+			
+			// Search Break Zone
+			// SearchForCard2|Search your Break Zone for Card Name Bahamut|Player_BreakZone_Name,Is,Bahamut
+			if (document.getElementById("checkbox_ac_006").checked) {
+				var searchArray = [];
+				if (document.getElementById("checkbox_ac_006_nameOrJob").checked) {
+					searchArray.push("NameOrJob,Is," + document.getElementById("nameOrJob_ac_006").value);
+				}
+				if (document.getElementById("checkbox_ac_006_type").checked) {
+					searchArray.push("Type," + document.getElementById("type_ac_006").value);
+				}
+				if (document.getElementById("checkbox_ac_006_element").checked) {
+					searchArray.push("Element,Is," + document.getElementById("element_ac_006").value);
+				}
+				if (document.getElementById("checkbox_ac_006_category").checked) {
+					searchArray.push("Category,Is," + document.getElementById("category_ac_006").value);
+				}
+				if (document.getElementById("checkbox_ac_006_cost").checked) {
+					searchArray.push("CP," + document.getElementById("cost_ac_006_dropdown").value + "," + document.getElementById("cost_ac_006_number").value);
+				}
+				
+				if (searchArray.length > 0) {
+					var acLabel = "SearchForCard1";
+					if (document.getElementById("checkbox_ac_006").checked) {
+						acLabel = "SearchForCard2";
+					}
+					var thisAbility = acLabel + "|Search your Break Zone for a card|Player_BreakZone_" + searchArray.join("AND");
+					abilityArray.push(thisAbility);
+				}
+			}
+			
+			// Reveal cards
+			// RevealCards1|Quantity|4|Type,IsNot,Summon
+			if (document.getElementById("checkbox_ac_007").checked) {
+				var searchArray = [];
+				if (document.getElementById("checkbox_ac_007_nameOrJob").checked) {
+					searchArray.push("NameOrJob,Is," + document.getElementById("nameOrJob_ac_007").value);
+				}
+				if (document.getElementById("checkbox_ac_007_type").checked) {
+					searchArray.push("Type," + document.getElementById("type_ac_007").value);
+				}
+				if (document.getElementById("checkbox_ac_007_element").checked) {
+					searchArray.push("Element,Is," + document.getElementById("element_ac_007").value);
+				}
+				if (document.getElementById("checkbox_ac_007_category").checked) {
+					searchArray.push("Category,Is," + document.getElementById("category_ac_007").value);
+				}
+				if (document.getElementById("checkbox_ac_007_cost").checked) {
+					searchArray.push("CP," + document.getElementById("cost_ac_007_dropdown").value + "," + document.getElementById("cost_ac_007_number").value);
+				}
+				
+				if (searchArray.length > 0) {
+					var thisAbility = "RevealCards1|Quantity|" + document.getElementById("validCount_ac_007").value + "|" + searchArray.join("AND");
+					abilityArray.push(thisAbility);
+				}
 			}
 			
 			myOutput += "\n	<property name='AbilitiesContainer' value='" + abilityArray.join("][") + "'/>";
@@ -956,14 +1072,14 @@
 			ability_container_change();
 		}
 		
-		function element_ac_001_change(myElement) {
+		function element_ac_001_change(myElement, minimum = 0) {
 			var myValue = myElement.value.trim();
 			if (isNaN(myValue) || myValue == "") {
-				myElement.value = "0";
+				myElement.value = "" + minimum;
 			} else {
 				var myInt = parseInt(myValue);
-				if (myInt < 0) {
-					myElement.value = "0";
+				if (myInt < minimum) {
+					myElement.value = "" + minimum;
 				}
 			}
 		
@@ -980,15 +1096,103 @@
 			ability_container_change();
 		}
 		
-		function element_ac_002_change(myElement) {
+		function element_ac_002_change(myElement, minimum = 0) {
 			var myValue = myElement.value.trim();
 			if (isNaN(myValue) || myValue == "") {
-				myElement.value = "0";
+				myElement.value = "" + minimum;
 			} else {
 				var myInt = parseInt(myValue);
-				if (myInt < 0) {
-					myElement.value = "0";
+				if (myInt < minimum) {
+					myElement.value = "" + minimum;
 				}
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_003_change() {
+			if (document.getElementById("checkbox_ac_003").checked) {
+				document.getElementById("table_ac_003").style.display = "table";
+			} else {
+				document.getElementById("table_ac_003").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function element_ac_003_change(myElement, minimum = 0) {
+			var myValue = myElement.value.trim();
+			if (isNaN(myValue) || myValue == "") {
+				myElement.value = "" + minimum;
+			} else {
+				var myInt = parseInt(myValue);
+				if (myInt < minimum) {
+					myElement.value = "" + minimum;
+				}
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_004_change() {
+			if (document.getElementById("checkbox_ac_004").checked) {
+				document.getElementById("table_ac_004").style.display = "table";
+			} else {
+				document.getElementById("table_ac_004").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function element_ac_004_change(myElement, minimum = 0) {
+			var myValue = myElement.value.trim();
+			if (isNaN(myValue) || myValue == "") {
+				myElement.value = "" + minimum;
+			} else {
+				var myInt = parseInt(myValue);
+				if (myInt < minimum) {
+					myElement.value = "" + minimum;
+				}
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_005_change() {
+			if (document.getElementById("checkbox_ac_005").checked) {
+				document.getElementById("table_ac_005").style.display = "table";
+			} else {
+				document.getElementById("table_ac_005").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_005_change_inner(thisElement, otherElement) {
+			if (thisElement.checked) {
+				document.getElementById(otherElement).style.display = "block";
+			} else {
+				document.getElementById(otherElement).style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_006_change() {
+			if (document.getElementById("checkbox_ac_006").checked) {
+				document.getElementById("table_ac_006").style.display = "table";
+			} else {
+				document.getElementById("table_ac_006").style.display = "none";
+			}
+		
+			ability_container_change();
+		}
+		
+		function checkbox_ac_007_change() {
+			if (document.getElementById("checkbox_ac_007").checked) {
+				document.getElementById("table_ac_007").style.display = "table";
+			} else {
+				document.getElementById("table_ac_007").style.display = "none";
 			}
 		
 			ability_container_change();
@@ -1546,7 +1750,12 @@
 						</tr>
 						<tr>
 							<td class="fullRow" colspan="2">
-								<pre id="octgn_output_label" style="font-size: 12px"></pre>
+								<pre id="octgn_output_label" style="font-size: 12px; max-width: 450px; overflow-x: scroll;"></pre>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<button class="tablinks" onclick="copyToClipboard();">Copy to clipboard</button>
 							</td>
 						</tr>
 						<tr>
@@ -1720,17 +1929,507 @@
 								</table>
 							</td>
 						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_003" onchange="checkbox_ac_003_change();"/>
+								<label class="miniLabel">Warp</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_003" class="acTable" style="display: none;">
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Turns</label>
+										</td>
+										<td colspan="6">
+											<input type="text" id="turns_ac_003" name="turns_ac_003" class="smallTextBox" value="1" onchange="element_ac_003_change(this, 1);"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="9">
+											<label class="mainLabel" style="text-align: left;">Elements</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Fire.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="fire_ac_003" name="fire_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Ice.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="ice_ac_003" name="ice_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Wind.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="wind_ac_003" name="wind_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Earth.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="earth_ac_003" name="earth_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Lightning.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="lightning_ac_003" name="lightning_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Water.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="water_ac_003" name="water_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Light.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="light_ac_003" name="light_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Dark.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="dark_ac_003" name="dark_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_X.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="extra_ac_003" name="extra_ac_003" class="smallTextBox" value="0" onchange="element_ac_003_change(this);"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_004" onchange="checkbox_ac_004_change();"/>
+								<label class="miniLabel">Prime</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_004" class="acTable" style="display: none;">
+									<tr>
+										<td colspan="3">
+											<label class="mainLabel">Name</label>
+										</td>
+										<td colspan="6">
+											<input type="text" id="name_ac_004" name="name_ac_004" class="smallTextBox" value="name of character" onchange="ability_container_change();"/>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="9">
+											<label class="mainLabel" style="text-align: left;">Elements</label>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<img src="Symbols/cpIcon_Fire.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="fire_ac_004" name="fire_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Ice.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="ice_ac_004" name="ice_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Wind.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="wind_ac_004" name="wind_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Earth.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="earth_ac_004" name="earth_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Lightning.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="lightning_ac_004" name="lightning_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Water.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="water_ac_004" name="water_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Light.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="light_ac_004" name="light_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_Dark.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="dark_ac_004" name="dark_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+										<td>
+											<img src="Symbols/cpIcon_X.png" width="24" height="24"/>
+											<br/>
+											<input type="text" id="extra_ac_004" name="extra_ac_004" class="smallTextBox" value="0" onchange="element_ac_004_change(this);"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_005" onchange="checkbox_ac_005_change();"/>
+								<label class="miniLabel">Search the Deck for a card</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_005" class="acTable" style="display: none;">
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_005_nameOrJob" onchange="checkbox_ac_005_change_inner(this, 'nameOrJob_ac_005');"/>
+											<label class="mainLabel">by Name or Job</label>
+										</td>
+										<td class="rightRow">
+											<input type="text" id="nameOrJob_ac_005" name="name_ac_005" class="smallTextBox" value="name of character" onchange="ability_container_change();" style="display: none;"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_005_type" onchange="checkbox_ac_005_change_inner(this, 'type_ac_005');"/>
+											<label class="mainLabel">by Type</label>
+										</td>
+										<td class="rightRow">
+											<select name="type_ac_005" id="type_ac_005" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Is,Forward" selected="selected">Forward</option>
+												<option value="Is,Backup">Backup</option>
+												<option value="Is,Summon">Summon</option>
+												<option value="Is,Monster">Monster</option>
+												<option value="IsNot,Summon">Character</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_005_element" onchange="checkbox_ac_005_change_inner(this, 'element_ac_005');"/>
+											<label class="mainLabel">by Element</label>
+										</td>
+										<td class="rightRow">
+											<select name="element_ac_005" id="element_ac_005" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Fire" selected="selected">Fire</option>
+												<option value="Ice">Ice</option>
+												<option value="Wind">Wind</option>
+												<option value="Earth">Earth</option>
+												<option value="Lightning">Lightning</option>
+												<option value="Water">Water</option>
+												<option value="Light">Light</option>
+												<option value="Dark">Dark</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_005_category" onchange="checkbox_ac_005_change_inner(this, 'category_ac_005');"/>
+											<label class="mainLabel">by Category</label>
+										</td>
+										<td class="rightRow">
+											<select name="category_ac_005" id="category_ac_005" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="I" selected="selected">I</option>
+												<option value="II">II</option>
+												<option value="III">III</option>
+												<option value="IV">IV</option>
+												<option value="V">V</option>
+												<option value="VI">VI</option>
+												<option value="VII">VII</option>
+												<option value="VIII">VIII</option>
+												<option value="IX">IX</option>
+												<option value="X">X</option>
+												<option value="XI">XI</option>
+												<option value="XII">XII</option>
+												<option value="XIII">XIII</option>
+												<option value="XIV">XIV</option>
+												<option value="XV">XV</option>
+												<option value="XVI">XVI</option>
+												<option value="FFBE">FFBE</option>
+												<option value="FFCC">FFCC</option>
+												<option value="FFEX">FFEX</option>
+												<option value="FFL">FFL</option>
+												<option value="FFRK">FFRK</option>
+												<option value="FFT">FFT</option>
+												<option value="FFTA">FFTA</option>
+												<option value="FFTA2">FFTA2</option>
+												<option value="SOPFFO">SOPFFO</option>
+												<option value="TYPE-0">TYPE-0</option>
+												<option value="WOFF">WOFF</option>
+												<option value="Special">Special</option>
+												<option value="DFF">DFF</option>
+												<option value="LOV">LOV</option>
+												<option value="MOBIUS">MOBIUS</option>
+												<option value="PICTLOGICA">PICTLOGICA</option>
+												<option value="THEATRHYTHM">THEATRHYTHM</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_005_cost" onchange="checkbox_ac_005_change_inner(this, 'cost_ac_005_dropdown'); checkbox_ac_005_change_inner(this, 'cost_ac_005_number');"/>
+											<label class="mainLabel">by Cost</label>
+										</td>
+										<td class="rightRow">
+											<select name="cost_ac_005_dropdown" id="cost_ac_005_dropdown" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="LessThanOrEqualTo" selected="selected">less than or equal to</option>
+												<option value="GreaterThanOrEqualTo">greater than or equal to</option>
+												<option value="Equals">equals</option>
+											</select>
+											<input type="text" id="cost_ac_005_number" name="cost_ac_005_number" class="smallTextBox" value="1" onchange="element_ac_004_change(this, 1);" style="display: none;"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_006" onchange="checkbox_ac_006_change();"/>
+								<label class="miniLabel">Search the Break Zone for a card</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_006" class="acTable" style="display: none;">
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_006_nameOrJob" onchange="checkbox_ac_005_change_inner(this, 'nameOrJob_ac_006');"/>
+											<label class="mainLabel">by Name or Job</label>
+										</td>
+										<td class="rightRow">
+											<input type="text" id="nameOrJob_ac_006" name="name_ac_006" class="smallTextBox" value="name of character" onchange="ability_container_change();" style="display: none;"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_006_type" onchange="checkbox_ac_005_change_inner(this, 'type_ac_006');"/>
+											<label class="mainLabel">by Type</label>
+										</td>
+										<td class="rightRow">
+											<select name="type_ac_006" id="type_ac_006" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Is,Forward" selected="selected">Forward</option>
+												<option value="Is,Backup">Backup</option>
+												<option value="Is,Summon">Summon</option>
+												<option value="Is,Monster">Monster</option>
+												<option value="IsNot,Summon">Character</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_006_element" onchange="checkbox_ac_005_change_inner(this, 'element_ac_006');"/>
+											<label class="mainLabel">by Element</label>
+										</td>
+										<td class="rightRow">
+											<select name="element_ac_006" id="element_ac_006" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Fire" selected="selected">Fire</option>
+												<option value="Ice">Ice</option>
+												<option value="Wind">Wind</option>
+												<option value="Earth">Earth</option>
+												<option value="Lightning">Lightning</option>
+												<option value="Water">Water</option>
+												<option value="Light">Light</option>
+												<option value="Dark">Dark</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_006_category" onchange="checkbox_ac_005_change_inner(this, 'category_ac_006');"/>
+											<label class="mainLabel">by Category</label>
+										</td>
+										<td class="rightRow">
+											<select name="category_ac_006" id="category_ac_006" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="I" selected="selected">I</option>
+												<option value="II">II</option>
+												<option value="III">III</option>
+												<option value="IV">IV</option>
+												<option value="V">V</option>
+												<option value="VI">VI</option>
+												<option value="VII">VII</option>
+												<option value="VIII">VIII</option>
+												<option value="IX">IX</option>
+												<option value="X">X</option>
+												<option value="XI">XI</option>
+												<option value="XII">XII</option>
+												<option value="XIII">XIII</option>
+												<option value="XIV">XIV</option>
+												<option value="XV">XV</option>
+												<option value="XVI">XVI</option>
+												<option value="FFBE">FFBE</option>
+												<option value="FFCC">FFCC</option>
+												<option value="FFEX">FFEX</option>
+												<option value="FFL">FFL</option>
+												<option value="FFRK">FFRK</option>
+												<option value="FFT">FFT</option>
+												<option value="FFTA">FFTA</option>
+												<option value="FFTA2">FFTA2</option>
+												<option value="SOPFFO">SOPFFO</option>
+												<option value="TYPE-0">TYPE-0</option>
+												<option value="WOFF">WOFF</option>
+												<option value="Special">Special</option>
+												<option value="DFF">DFF</option>
+												<option value="LOV">LOV</option>
+												<option value="MOBIUS">MOBIUS</option>
+												<option value="PICTLOGICA">PICTLOGICA</option>
+												<option value="THEATRHYTHM">THEATRHYTHM</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_006_cost" onchange="checkbox_ac_005_change_inner(this, 'cost_ac_006_dropdown'); checkbox_ac_005_change_inner(this, 'cost_ac_006_number');"/>
+											<label class="mainLabel">by Cost</label>
+										</td>
+										<td class="rightRow">
+											<select name="cost_ac_006_dropdown" id="cost_ac_006_dropdown" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="LessThanOrEqualTo" selected="selected">less than or equal to</option>
+												<option value="GreaterThanOrEqualTo">greater than or equal to</option>
+												<option value="Equals">equals</option>
+											</select>
+											<input type="text" id="cost_ac_006_number" name="cost_ac_006_number" class="smallTextBox" value="1" onchange="element_ac_004_change(this, 1);" style="display: none;"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<input type="checkbox" id="checkbox_ac_007" onchange="checkbox_ac_007_change();"/>
+								<label class="miniLabel">Reveal cards from top of deck</label>
+							</td>
+						</tr>
+						<tr>
+							<td class="fullRow" colspan="2">
+								<table id="table_ac_007" class="acTable" style="display: none;">
+									<tr>
+										<td class="leftRow">
+											<label class="mainLabel">Number to reveal</label>
+										</td>
+										<td class="rightRow">
+											<input type="text" id="validCount_ac_007" name="validCount_ac_007" class="smallTextBox" value="1" onchange="element_ac_004_change(this, 1);"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="fullRow" colspan="2">
+											<label class="miniLabel">Valid targets:</label>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_007_nameOrJob" onchange="checkbox_ac_005_change_inner(this, 'nameOrJob_ac_007');"/>
+											<label class="mainLabel">by Name or Job</label>
+										</td>
+										<td class="rightRow">
+											<input type="text" id="nameOrJob_ac_007" name="name_ac_007" class="smallTextBox" value="name of character" onchange="ability_container_change();" style="display: none;"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_007_type" onchange="checkbox_ac_005_change_inner(this, 'type_ac_007');"/>
+											<label class="mainLabel">by Type</label>
+										</td>
+										<td class="rightRow">
+											<select name="type_ac_007" id="type_ac_007" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Is,Forward" selected="selected">Forward</option>
+												<option value="Is,Backup">Backup</option>
+												<option value="Is,Summon">Summon</option>
+												<option value="Is,Monster">Monster</option>
+												<option value="IsNot,Summon">Character</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_007_element" onchange="checkbox_ac_005_change_inner(this, 'element_ac_007');"/>
+											<label class="mainLabel">by Element</label>
+										</td>
+										<td class="rightRow">
+											<select name="element_ac_007" id="element_ac_007" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="Fire" selected="selected">Fire</option>
+												<option value="Ice">Ice</option>
+												<option value="Wind">Wind</option>
+												<option value="Earth">Earth</option>
+												<option value="Lightning">Lightning</option>
+												<option value="Water">Water</option>
+												<option value="Light">Light</option>
+												<option value="Dark">Dark</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_007_category" onchange="checkbox_ac_005_change_inner(this, 'category_ac_007');"/>
+											<label class="mainLabel">by Category</label>
+										</td>
+										<td class="rightRow">
+											<select name="category_ac_007" id="category_ac_007" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="I" selected="selected">I</option>
+												<option value="II">II</option>
+												<option value="III">III</option>
+												<option value="IV">IV</option>
+												<option value="V">V</option>
+												<option value="VI">VI</option>
+												<option value="VII">VII</option>
+												<option value="VIII">VIII</option>
+												<option value="IX">IX</option>
+												<option value="X">X</option>
+												<option value="XI">XI</option>
+												<option value="XII">XII</option>
+												<option value="XIII">XIII</option>
+												<option value="XIV">XIV</option>
+												<option value="XV">XV</option>
+												<option value="XVI">XVI</option>
+												<option value="FFBE">FFBE</option>
+												<option value="FFCC">FFCC</option>
+												<option value="FFEX">FFEX</option>
+												<option value="FFL">FFL</option>
+												<option value="FFRK">FFRK</option>
+												<option value="FFT">FFT</option>
+												<option value="FFTA">FFTA</option>
+												<option value="FFTA2">FFTA2</option>
+												<option value="SOPFFO">SOPFFO</option>
+												<option value="TYPE-0">TYPE-0</option>
+												<option value="WOFF">WOFF</option>
+												<option value="Special">Special</option>
+												<option value="DFF">DFF</option>
+												<option value="LOV">LOV</option>
+												<option value="MOBIUS">MOBIUS</option>
+												<option value="PICTLOGICA">PICTLOGICA</option>
+												<option value="THEATRHYTHM">THEATRHYTHM</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td class="leftRow">
+											<input type="checkbox" id="checkbox_ac_007_cost" onchange="checkbox_ac_005_change_inner(this, 'cost_ac_007_dropdown'); checkbox_ac_005_change_inner(this, 'cost_ac_007_number');"/>
+											<label class="mainLabel">by Cost</label>
+										</td>
+										<td class="rightRow">
+											<select name="cost_ac_007_dropdown" id="cost_ac_007_dropdown" class="tabDropdown" onchange="ability_container_change();" style="display: none;">
+												<option value="LessThanOrEqualTo" selected="selected">less than or equal to</option>
+												<option value="GreaterThanOrEqualTo">greater than or equal to</option>
+												<option value="Equals">equals</option>
+											</select>
+											<input type="text" id="cost_ac_007_number" name="cost_ac_007_number" class="smallTextBox" value="1" onchange="element_ac_004_change(this, 1);" style="display: none;"/>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
 					</table>
 				</div>
 				
-				<div id="About" class="tabcontent">		
-					<table class="tabTable">
+				<div id="About" class="tabcontent" style="width: 474px; max-width: 474px;">		
+					<table class="tabTable" style="width: 474px;">
 						<tr>
 							<td class="leftRow">
 								<label class="mainLabel">Version 1.01</label>
 							</td>
 							<td class="rightRow">
-								<label class="miniLabel">03/10/24</label>
+								<label class="miniLabel">04/10/24</label>
 							</td>
 						</tr>
 						<tr>
